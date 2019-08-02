@@ -26,72 +26,72 @@ HI = 999
 .data
 myArr		DWORD 5 DUP(500)
 randomNum	DWORD ?
-list		DWORD 1, 2, 3, 4
+list		DWORD 1,2,3,4
 myPtr		DWORD list
 
 .code
 main PROC
-mov		esi, myPtr
-mov		eax, [esi + 4]
-call	WriteDec
-call	CrLf
+	mov		esi, myPtr
+	mov		eax, [esi+4]
+	call	WriteDec
+	call	CrLf
 
 
-call	Randomize
-push	OFFSET myArr
-call	copyAnArray
-exit; exit to operating system
+	call	Randomize
+	push	OFFSET myArr
+	call	copyAnArray
+	exit							;exit to operating system
 main ENDP
 
 
 copyAnArray PROC
-LOCAL	localARR[5]:DWORD
+	LOCAL	localARR[5]:DWORD
 
 
-; fill array
-mov		edx, localARR[0]
-mov		ebx, 0
-mov		ecx, 5
+	;fill array
+	mov		edx, localARR[0]
+	mov		ebx, 0
+	mov		ecx, 5
 fillArray:
-call	generateRandom
-mov		randomNum, eax
-mov		localARR[0 + ebx], eax
-add		ebx, 4
-loop	fillArray
+	call	generateRandom
+	mov		randomNum, eax
+	mov		localARR[0+ebx], eax
+	add		ebx, 4
+	loop	fillArray
 
-; display array
-mov		esi, localARR[0]
-mov		edx, 0
-mov		ecx, 5
+	;display array
+	mov		esi, localARR[0]
+	mov		edx, 0
+	mov		ecx, 5
 displayArray:
-mov		eax, localARR[0 + edx]
-call	WriteDec
-call	CrLf
-add		edx, 4
-loop	displayArray
+	mov		eax, localARR[0 + edx]
+	call	WriteDec
+	call	CrLf
+	add		edx, 4
+	loop	displayArray
 
-ret
+	ret
 copyAnArray ENDP
-
+	
 
 
 
 
 
 generateRandom PROC
-push	ebp
-mov		ebp, esp
-mov		DWORD PTR[ebp - 4], HI
-mov		DWORD PTR[ebp - 8], LO
-mov		eax, DWORD PTR[ebp - 4]
-sub		eax, DWORD PTR[ebp - 8]
-inc		eax
-call	RandomRange
-add		eax, DWORD PTR[ebp - 8]
+	push	ebp
+	mov		ebp, esp
+	mov		DWORD PTR[ebp - 4], HI
+	mov		DWORD PTR[ebp - 8], LO
+	mov		eax, DWORD PTR [ebp - 4]
+	sub		eax, DWORD PTR [ebp - 8]
+	inc		eax
+	call	RandomRange
+	add		eax, DWORD PTR [ebp - 8]
 
-mov		esp, ebp
-pop		ebp
-ret
+	mov		esp, ebp
+	pop		ebp
+	ret
 generateRandom ENDP
 
 
